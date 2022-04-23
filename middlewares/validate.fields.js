@@ -7,6 +7,7 @@ const validateFields = (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(400).json(errors);
   }
+  // Goes to the next validation or to the controller
   next();
 };
 
