@@ -7,7 +7,7 @@ const app = express();
 const port = process.env.PORT;
 
 // Middlewares
-app.use(express.static(__dirname + "/public/index.html"))
+app.use(express.static("public"))
 app.use(cors());
 app.use(express.json()); // Parse JSON petitions
 
