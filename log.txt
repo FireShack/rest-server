@@ -13,3 +13,4 @@ ValidationError: name: The name value is required
 ValidationError: name: The name value is required 
 MongoServerError: E11000 duplicate key error collection: FireShackDB.users index: mail_1 dup key: { mail: "franco@gmail.com" } 
 MongoServerError: E11000 duplicate key error collection: FireShackDB.users index: mail_1 dup key: { mail: "franco@gmail.com" } 
+MongoServerError: E11000 duplicate key error collection: FireShackDB.users index: mail_1 dup key: { mail: "franco@franco.com" } 
