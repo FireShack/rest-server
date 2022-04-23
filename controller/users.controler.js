@@ -1,5 +1,6 @@
 // Users container
 let users = [];
+const User = require("../models/user.model")
 
 const handleGetAllUsers = (req, res) => res.json({ status: 200, msg: users });
 
@@ -27,6 +28,8 @@ const handlePatch = (req, res) =>
   res.json({ status: 200, msg: "Hi from Patch controller" });
 
 const handleDefault = (req, res) => res.send("404 | page not found");
+
+
 
 module.exports = {
   handleGetAllUsers,
