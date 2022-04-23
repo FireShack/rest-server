@@ -1,0 +1,15 @@
+MongoServerError: E11000 duplicate key error collection: FireShackDB.users index: mail_1 dup key: { mail: "franco@franco.com" }MongoServerError: E11000 duplicate key error collection: FireShackDB.users index: mail_1 dup key: { mail: "franco@gmail.com" } 
+MongoServerError: E11000 duplicate key error collection: FireShackDB.users index: mail_1 dup key: { mail: "franco@gmail.com" } 
+ValidationError: mail: The mail value is required 
+ValidationError: mail: The mail value is required 
+ValidationError: mail: The mail value is required 
+ValidationError: mail: The mail value is required 
+ValidationError: pass: The password value is required 
+MongoServerError: E11000 duplicate key error collection: FireShackDB.users index: mail_1 dup key: { mail: "franco@gmail.com" } 
+MongoServerError: E11000 duplicate key error collection: FireShackDB.users index: mail_1 dup key: { mail: "franco@gmailsldfn.comasldknsdbsv" } 
+MongoServerError: E11000 duplicate key error collection: FireShackDB.users index: mail_1 dup key: { mail: "franco@gmailsldfn.comasldknsdbsv" } 
+MongoServerError: E11000 duplicate key error collection: FireShackDB.users index: mail_1 dup key: { mail: "franco@gmailsldfn.comasldknsdbsv" } 
+ValidationError: name: The name value is required 
+ValidationError: name: The name value is required 
+MongoServerError: E11000 duplicate key error collection: FireShackDB.users index: mail_1 dup key: { mail: "franco@gmail.com" } 
+MongoServerError: E11000 duplicate key error collection: FireShackDB.users index: mail_1 dup key: { mail: "franco@gmail.com" } 
