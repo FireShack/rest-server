@@ -3,6 +3,10 @@ const User = require("../models/user.model");
 const { request } = require("express");
 const { writeFileSync } = require("fs");
 
+const writeLog = (err) => {
+  writeFileSync("log.txt", `${err.toString()} \n`, { flag: "a+" });
+};
+
 const handleGetAllUsers = async (req, res) => {
   const { limit = 5, from = 0 } = req.query;
   // GET all the active users
@@ -15,13 +19,12 @@ const handleGetAllUsers = async (req, res) => {
     ]);
 
     res.status(200).json({ total, allUsers });
-  } catch (error) {
+  } catch (err) {
     if (limit !== Number || from !== Number) {
       return res.status(400).json({ msg: "Please, insert valid parameters" });
     }
-    res
-      .status(400)
-      .json({ msg: "There was en error, please try again", error });
+    res.status(400).json({ msg: "There was en error, please try again", err });
+    writeLog(err);
   }
 };
 
@@ -46,7 +49,7 @@ const handlePost = async (req, res) => {
     // Send error
     res.status(400).json({ msg: `The arguments are incorrect: ${err}` });
     // This function writes a log file to save all the errors
-    writeFileSync("log.txt", `${err.toString()} \n`, { flag: "a+" });
+    writeLog(err);
   }
 };
 
@@ -70,6 +73,7 @@ const handlePut = async (req = request, res) => {
     res
       .status(400)
       .json({ msg: "There was an error, please try again", err, ID });
+    writeLog(err);
   }
 };
 
@@ -80,8 +84,9 @@ const handleDelete = async (req, res) => {
     // Update user state and change it to false (no active user)
     await User.findByIdAndUpdate(id, { state: false });
     res.status(200).json({ msg: "You deleted user", id });
-  } catch (error) {
-    res.status(400).json({ msg: "You must provide an ID for these request" });
+  } catch (err) {
+    res.status(400).json({ msg: "There was an error", err });
+    writeLog(err);
   }
 };
 

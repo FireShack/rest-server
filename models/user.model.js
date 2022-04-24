@@ -32,6 +32,7 @@ const UserSchema = Schema({
   },
 });
 
+// This function take out the __v and the user's password of the response
 UserSchema.methods.toJSON = function () {
   const { __v, pass, ...user } = this.toObject();
   return user;

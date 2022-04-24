@@ -11,6 +11,7 @@ const port = process.env.PORT;
 app.use(express.static("public"));
 app.use(cors());
 app.use(express.json()); // Parse JSON petitions
+// DB connection
 dbConnection();
 
 // Main route

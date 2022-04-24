@@ -9,15 +9,18 @@ const {
   handlePost,
   handleDelete,
 } = require("../controller/users.controler.js");
+// DB validations
 const {
   validRole,
   validMail,
   userExists,
 } = require("../helpers/db.validator.js");
+// Own middleware
 const { validateFields } = require("../middlewares/validate.fields.js");
 
 // Routes
 router.get("/", handleGetAllUsers);
+
 router.put(
   "/:id",
   [
@@ -28,6 +31,7 @@ router.put(
   ],
   handlePut
 );
+
 router.post(
   "/",
   [
