@@ -2,7 +2,9 @@
 
 ## What is this? 
 
-This is a ready to use server. You will be able to make http request for the endpoints that you want. Feel free of clone it and use it. All this server was coded with node.js, the Javascript runtime enviroment, and with Express. You can check all the documentation. 
+This is a ready to use server. You will be able to make http request for the endpoints that you want. Feel free of clone it and use it. All this server was coded with node.js, the Javascript runtime enviroment, and with Express. You can check all the documentation.
+
+You can access to the link in the description, there are the endpoints to request. 
 
 ## How to use it? 
 
@@ -19,3 +21,5 @@ into the **.env** file. Here you can set the port or some connections.
 - cors
 - dotenv
 - nodemon (you must have it downloaded global)
+- Express-validator
+- Bcrypt.js
