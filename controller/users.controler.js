@@ -20,9 +20,6 @@ const handleGetAllUsers = async (req, res) => {
 
     res.status(200).json({ total, allUsers });
   } catch (err) {
-    if (limit !== Number || from !== Number) {
-      return res.status(400).json({ msg: "Please, insert valid parameters" });
-    }
     res.status(400).json({ msg: "There was en error, please try again", err });
     writeLog(err);
   }
