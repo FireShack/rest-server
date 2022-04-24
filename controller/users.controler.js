@@ -5,12 +5,15 @@ const { writeFileSync } = require("fs");
 
 const handleGetAllUsers = async (req, res) => {
   const { limit = 5, from = 0 } = req.query;
+  // GET all the active users
   const qDB = { state: true };
   try {
+    // Execute all the DB queries all in one, by this way, we prevent non-blocking code
     const [total, allUsers] = await Promise.all([
       User.countDocuments(qDB),
       User.find(qDB).limit(Number(limit)).skip(Number(from)),
     ]);
+
     res.status(200).json({ total, allUsers });
   } catch (error) {
     if (limit !== Number || from !== Number) {
@@ -49,6 +52,7 @@ const handlePost = async (req, res) => {
 
 const handlePut = async (req = request, res) => {
   const { id } = req.params;
+  // Parse the URL
   const ID = id.trim("\n");
   const { __id, pass, mail, google, ...userToUpdate } = req.body;
 
@@ -73,6 +77,7 @@ const handleDelete = async (req, res) => {
   const { id } = req.params;
   // const ID = id.trim("\n");
   try {
+    // Update user state and change it to false (no active user)
     await User.findByIdAndUpdate(id, { state: false });
     res.status(200).json({ msg: "You deleted user", id });
   } catch (error) {
