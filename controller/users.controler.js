@@ -5,10 +5,13 @@ const { writeFileSync } = require("fs");
 
 const handleGetAllUsers = async (req, res) => {
   const { limit = 5, from = 0 } = req.query;
-
+  const qDB = { state: true };
   try {
-    const allUsers = await User.find().limit(Number(limit)).skip(Number(from));
-    res.status(200).json({ msg: allUsers });
+    const [total, allUsers] = await Promise.all([
+      User.countDocuments(qDB),
+      User.find(qDB).limit(Number(limit)).skip(Number(from)),
+    ]);
+    res.status(200).json({ total, allUsers });
   } catch (error) {
     if (limit !== Number || from !== Number) {
       return res.status(400).json({ msg: "Please, insert valid parameters" });
