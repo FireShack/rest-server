@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/user.model");
-const fs = require("fs");
+const { writeFileSync } = require("fs");
 
 // Users container
 let users = [];
@@ -24,11 +24,12 @@ const handlePost = async (req, res) => {
     await user.save();
 
     // Server response
-    res.status(200).json({ msg: `User added successfully` });
+    res.status(200).json({ msg: `User added successfully`, user });
   } catch (err) {
+    // Send error
     res.status(400).json({ msg: `The arguments are incorrect: ${err}` });
     // This function writes a log file to save all the errors
-    fs.writeFileSync("log.txt", `${err.toString()} \n`, { flag: "a+" });
+    writeFileSync("log.txt", `${err.toString()} \n`, { flag: "a+" });
   }
 };
 
