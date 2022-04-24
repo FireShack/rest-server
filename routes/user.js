@@ -40,6 +40,11 @@ router.post(
   ],
   handlePost
 );
-router.delete("/:id", [], handleDelete);
+
+router.delete(
+  "/:id",
+  [check("id", "The ID is not valid").isMongoId(), validateFields],
+  handleDelete
+);
 
 module.exports = router;

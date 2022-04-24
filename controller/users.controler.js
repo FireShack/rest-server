@@ -66,14 +66,15 @@ const handlePut = async (req = request, res) => {
   }
 };
 
-const handleDelete = (req, res) => {
+const handleDelete = async (req, res) => {
   const { id } = req.params;
   const ID = id.trim("\n");
-  if (!ID) {
-    res.status(400).send("You must provide an ID for these request");
+  try {
+    await User.findByIdAndDelete(id);
+    res.status(200).json({ msg: "You deleted user", id });
+  } catch (error) {
+    res.status(400).json({ msg: "You must provide an ID for these request" });
   }
-  User.findByIdAndRemove(ID);
-  res.json({ status: 200, msg: "You deleted user", id });
 };
 
 const handleDefault = (req, res) => res.send("404 | page not found");
