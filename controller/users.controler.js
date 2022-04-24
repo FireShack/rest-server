@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/user.model");
+const { request } = require("express");
 const { writeFileSync } = require("fs");
-
 // Users container
 let users = [];
 
@@ -24,7 +24,7 @@ const handlePost = async (req, res) => {
     await user.save();
 
     // Server response
-    res.status(200).json({ msg: `User added successfully`, user });
+    res.status(200).json({ msg: `User added successfully` });
   } catch (err) {
     // Send error
     res.status(400).json({ msg: `The arguments are incorrect: ${err}` });
@@ -33,22 +33,38 @@ const handlePost = async (req, res) => {
   }
 };
 
+const handlePut = async (req = request, res) => {
+  const { id } = req.params;
+  const ID = id.trim("\n");
+
+  const { pass, google, ...userToUpdate } = req.body;
+  try {
+    if (pass) {
+      const salt = bcrypt.genSaltSync();
+      userToUpdate.pass = bcrypt.hashSync(pass, salt);
+    }
+    const userUpd = await User.findByIdAndUpdate(ID, userToUpdate);
+    res.status(200).json({ msg: `Do you want to update user ${ID}`, userUpd });
+  } catch (err) {
+    res.status(400).json({ msg: "There was an error:", err, ID });
+  }
+};
+
 const handleDelete = (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
   if (!id) {
     res.status(400).send("You must provide an ID for these request");
   }
-  res.json({ status: 200, msg: "Hi from Delete controller" });
+  User.findByIdAndRemove(id);
+  res.json({ status: 200, msg: "You deleted user", id });
 };
-const handlePatch = (req, res) =>
-  res.json({ status: 200, msg: "Hi from Patch controller" });
 
 const handleDefault = (req, res) => res.send("404 | page not found");
 
 module.exports = {
   handleGetAllUsers,
   handlePost,
-  handlePatch,
+  handlePut,
   handleDelete,
   handleDefault,
 };

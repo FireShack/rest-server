@@ -5,17 +5,16 @@ const { check } = require("express-validator");
 // Routes controllers
 const {
   handleGetAllUsers,
-  handlePatch,
+  handlePut,
   handlePost,
   handleDelete,
-  handleDefault,
 } = require("../controller/users.controler.js");
 const { validRole, validMail } = require("../helpers/db.validator.js");
 const { validateFields } = require("../middlewares/validate.fields.js");
-const RoleModel = require("../models/role.model.js");
 
 // Routes
 router.get("/", handleGetAllUsers);
+router.put("/:id", handlePut);
 router.post(
   "/",
   [
@@ -28,8 +27,6 @@ router.post(
   ],
   handlePost
 );
-router.patch("/:id", handlePatch);
-router.delete("/", handleDelete);
-router.get("*", handleDefault);
+router.delete("/:id", handleDelete);
 
 module.exports = router;
