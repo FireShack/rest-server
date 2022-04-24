@@ -2,10 +2,22 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/user.model");
 const { request } = require("express");
 const { writeFileSync } = require("fs");
-// Users container
-let users = [];
 
-const handleGetAllUsers = (req, res) => res.json({ status: 200, msg: users });
+const handleGetAllUsers = async (req, res) => {
+  const { limit = 5, from = 0 } = req.query;
+
+  try {
+    const allUsers = await User.find().limit(Number(limit)).skip(Number(from));
+    res.status(200).json({ msg: allUsers });
+  } catch (error) {
+    if (limit !== Number || from !== Number) {
+      return res.status(400).json({ msg: "Please, insert valid parameters" });
+    }
+    res
+      .status(400)
+      .json({ msg: "There was en error, please try again", error });
+  }
+};
 
 const handlePost = async (req, res) => {
   // Post request data, this will be saved into the DB
@@ -20,7 +32,6 @@ const handlePost = async (req, res) => {
     user.pass = bcrypt.hashSync(pass, salt);
 
     // Save user into the DB
-    users.push({ user });
     await user.save();
 
     // Server response
