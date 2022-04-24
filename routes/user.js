@@ -9,12 +9,25 @@ const {
   handlePost,
   handleDelete,
 } = require("../controller/users.controler.js");
-const { validRole, validMail } = require("../helpers/db.validator.js");
+const {
+  validRole,
+  validMail,
+  userExists,
+} = require("../helpers/db.validator.js");
 const { validateFields } = require("../middlewares/validate.fields.js");
 
 // Routes
 router.get("/", handleGetAllUsers);
-router.put("/:id", handlePut);
+router.put(
+  "/:id",
+  [
+    check("id", "The ID is not valid").isMongoId(),
+    check("id").custom(userExists),
+    check("role").custom(validRole),
+    validateFields,
+  ],
+  handlePut
+);
 router.post(
   "/",
   [
@@ -27,6 +40,6 @@ router.post(
   ],
   handlePost
 );
-router.delete("/:id", handleDelete);
+router.delete("/:id", [], handleDelete);
 
 module.exports = router;

@@ -14,7 +14,15 @@ const validMail = async (mail = "") => {
   }
 };
 
+const userExists = async (id = "") => {
+  const userExists = await UserModel.findById(id);
+  if (!userExists) {
+    throw new Error(`The user do not exists or is already registered`);
+  }
+};
+
 module.exports = {
   validRole,
   validMail,
+  userExists,
 };

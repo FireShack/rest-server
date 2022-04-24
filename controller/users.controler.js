@@ -36,26 +36,32 @@ const handlePost = async (req, res) => {
 const handlePut = async (req = request, res) => {
   const { id } = req.params;
   const ID = id.trim("\n");
+  const { __id, pass, mail, google, ...userToUpdate } = req.body;
 
-  const { pass, google, ...userToUpdate } = req.body;
   try {
     if (pass) {
+      // If the password is on the request, it will be modified
       const salt = bcrypt.genSaltSync();
       userToUpdate.pass = bcrypt.hashSync(pass, salt);
     }
+
+    // Find the user into the DB and update with the request data
     const userUpd = await User.findByIdAndUpdate(ID, userToUpdate);
-    res.status(200).json({ msg: `Do you want to update user ${ID}`, userUpd });
+    res.status(200).json({ msg: `User ${ID} updated`, userUpd });
   } catch (err) {
-    res.status(400).json({ msg: "There was an error:", err, ID });
+    res
+      .status(400)
+      .json({ msg: "There was an error, please try again", err, ID });
   }
 };
 
 const handleDelete = (req, res) => {
   const { id } = req.params;
-  if (!id) {
+  const ID = id.trim("\n");
+  if (!ID) {
     res.status(400).send("You must provide an ID for these request");
   }
-  User.findByIdAndRemove(id);
+  User.findByIdAndRemove(ID);
   res.json({ status: 200, msg: "You deleted user", id });
 };
 
