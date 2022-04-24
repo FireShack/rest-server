@@ -43,7 +43,11 @@ router.post(
 
 router.delete(
   "/:id",
-  [check("id", "The ID is not valid").isMongoId(), validateFields],
+  [
+    check("id", "The ID is not valid").isMongoId(),
+    check("id").custom(userExists),
+    validateFields,
+  ],
   handleDelete
 );
 

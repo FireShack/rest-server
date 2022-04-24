@@ -71,9 +71,9 @@ const handlePut = async (req = request, res) => {
 
 const handleDelete = async (req, res) => {
   const { id } = req.params;
-  const ID = id.trim("\n");
+  // const ID = id.trim("\n");
   try {
-    await User.findByIdAndDelete(id);
+    await User.findByIdAndUpdate(id, { state: false });
     res.status(200).json({ msg: "You deleted user", id });
   } catch (error) {
     res.status(400).json({ msg: "You must provide an ID for these request" });
