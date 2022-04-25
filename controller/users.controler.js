@@ -72,11 +72,19 @@ const handlePut = async (req = request, res) => {
 
 const handleDelete = async (req, res) => {
   const { id } = req.params;
+  const { name, role } = req.userData;
+
   // const ID = id.trim("\n");
   try {
+    // Check if the user was deleted
+    const { state } = await User.findById(id);
+    if (!state) {
+      return res.status(400).json({ msg: `User ${id} was already deleted` });
+    }
+
     // Update user state and change it to false (no active user)
     await User.findByIdAndUpdate(id, { state: false });
-    res.status(200).json({ msg: "You deleted user", id });
+    res.status(200).json({ msg: `User ${id} deleted by ${name} with ${role}` });
   } catch (err) {
     res.status(400).json({ msg: "There was an error", err });
     writeLog(err);

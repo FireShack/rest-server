@@ -26,3 +26,22 @@ ValidationError: role: `SALES_ROLE` is not a valid enum value for path `role`.
 ValidationError: role: `SALES_ROLE` is not a valid enum value for path `role`. 
 Error: Illegal arguments: string, undefined 
 Error: Illegal arguments: string, undefined 
+JsonWebTokenError: jwt malformed 
+JsonWebTokenError: jwt malformed 
+JsonWebTokenError: jwt malformed 
+JsonWebTokenError: jwt malformed 
+CastError: Cast to ObjectId failed for value "{ uid: '6266bb8768315d603a6601f8' }" (type Object) at path "_id" for model "User" 
+CastError: Cast to ObjectId failed for value "{ uid: '6266bb8768315d603a6601f8' }" (type Object) at path "_id" for model "User" 
+CastError: Cast to ObjectId failed for value "{ uid: '6266bb8768315d603a6601f8' }" (type Object) at path "_id" for model "User" 
+CastError: Cast to ObjectId failed for value "{ uid: '6266bb8768315d603a6601f8' }" (type Object) at path "_id" for model "User" 
+JsonWebTokenError: invalid token 
+JsonWebTokenError: invalid token 
+TypeError: Cannot destructure property 'name' of '(intermediate value)' as it is null. 
+TypeError: Cannot destructure property 'name' of '(intermediate value)' as it is null. 
+TypeError: Cannot destructure property 'name' of '(intermediate value)' as it is null. 
+TypeError: Cannot destructure property 'name' of '(intermediate value)' as it is null. 
+TypeError: Cannot destructure property 'name' of 'req.userData' as it is undefined. 
+TypeError: Cannot destructure property 'name' of 'req.userData' as it is undefined. 
+TypeError: Cannot destructure property 'name' of 'req.userData' as it is undefined. 
+TypeError: Cannot destructure property 'name' of 'req.userData' as it is undefined. 
+TypeError: Cannot destructure property 'name' of 'req.userData' as it is undefined. 

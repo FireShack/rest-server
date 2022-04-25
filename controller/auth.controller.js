@@ -20,10 +20,11 @@ const login = async (req, res) => {
       return res.status(400).json({ msg: "Please, check your password" });
     }
 
+    // Generate web token
     const token = await generateToken(userExists.id);
 
     // All went good
-    res.status(200).json({ msg: "Loggined", token });
+    res.status(200).json({ msg: "Loggined", token, userExists });
   } catch (error) {
     res.status(400).json({ msg: "There was an error", error });
     writeLog(error);

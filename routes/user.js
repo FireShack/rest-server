@@ -17,13 +17,24 @@ const {
 } = require("../helpers/db.validator.js");
 // Own middleware
 const { validateFields } = require("../middlewares/validate.fields.js");
+const validateJWT = require("../middlewares/validate.jwt.js");
+const {
+  validateRole,
+  validateAdmin,
+} = require("../middlewares/validate.role.js");
 
 // Routes
-user.get("/", handleGetAllUsers);
+user.get(
+  "/",
+  [validateJWT, validateRole("USER_ROLE", "ADMIN_ROLE", "SALES_ROLE")],
+  handleGetAllUsers
+);
 
 user.put(
   "/:id",
   [
+    validateJWT,
+    validateAdmin,
     check("id", "The ID is not valid").isMongoId(),
     check("id").custom(userExists),
     check("role").custom(validRole),
@@ -48,6 +59,8 @@ user.post(
 user.delete(
   "/:id",
   [
+    validateJWT,
+    validateAdmin,
     check("id", "The ID is not valid").isMongoId(),
     check("id").custom(userExists),
     validateFields,
