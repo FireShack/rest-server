@@ -8,7 +8,9 @@ const validateAdmin = (req, res, next) => {
     if (role !== "ADMIN_ROLE") {
       return res
         .status(400)
-        .json({ msg: `Sorry ${name}, ${mail}, you can't delete other users` });
+        .json({
+          msg: `Sorry ${name}, ${mail}, you can't delete or modify other users`,
+        });
     }
 
     next();
