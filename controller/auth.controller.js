@@ -1,6 +1,7 @@
 const writeLog = require("../log/log");
 const bcrypt = require("bcryptjs");
 const userModel = require("../models/user.model");
+const generateToken = require("../helpers/geneate.token");
 
 const login = async (req, res) => {
   const { mail, pass } = req.body;
@@ -19,8 +20,10 @@ const login = async (req, res) => {
       return res.status(400).json({ msg: "Please, check your password" });
     }
 
+    const token = await generateToken(userExists.id);
+
     // All went good
-    res.status(200).json({ msg: "Loggined" });
+    res.status(200).json({ msg: "Loggined", token });
   } catch (error) {
     res.status(400).json({ msg: "There was an error", error });
     writeLog(error);
