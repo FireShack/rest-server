@@ -15,13 +15,13 @@ const {
   validMail,
   userExists,
 } = require("../helpers/db.validator.js");
-// Own middleware
-const { validateFields } = require("../middlewares/validate.fields.js");
-const validateJWT = require("../middlewares/validate.jwt.js");
+// Middlewares
 const {
-  validateRole,
+  validateFields,
   validateAdmin,
-} = require("../middlewares/validate.role.js");
+  validateJWT,
+  validateRole,
+} = require("../middlewares");
 
 // Routes
 user.get(
