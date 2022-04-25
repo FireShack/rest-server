@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router();
+const user = express.Router();
 const { check } = require("express-validator");
 
 // Routes controllers
@@ -19,9 +19,9 @@ const {
 const { validateFields } = require("../middlewares/validate.fields.js");
 
 // Routes
-router.get("/", handleGetAllUsers);
+user.get("/", handleGetAllUsers);
 
-router.put(
+user.put(
   "/:id",
   [
     check("id", "The ID is not valid").isMongoId(),
@@ -32,7 +32,7 @@ router.put(
   handlePut
 );
 
-router.post(
+user.post(
   "/",
   [
     check("name", "Name value is empty").not().isEmpty(),
@@ -45,7 +45,7 @@ router.post(
   handlePost
 );
 
-router.delete(
+user.delete(
   "/:id",
   [
     check("id", "The ID is not valid").isMongoId(),
@@ -55,4 +55,4 @@ router.delete(
   handleDelete
 );
 
-module.exports = router;
+module.exports = user;
