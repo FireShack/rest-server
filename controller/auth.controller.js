@@ -31,6 +31,17 @@ const login = async (req, res) => {
   }
 };
 
+const googleSignIn = async (req, res) => {
+  const { id_token } = req.body;
+  try {
+    res.status(200).json({ msg: "ID provide successfully", id_token });
+  } catch (error) {
+    res.status(400).json({ msg: "There was an error", error });
+    writeLog(error);
+  }
+};
+
 module.exports = {
   login,
+  googleSignIn,
 };

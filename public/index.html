@@ -6,10 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Server`</title>
   </head>
+
   <body>
     <h2>Server Running</h2>
     <a href="https://http-server-template.herokuapp.com/api/users"
       >https://http-server-template.herokuapp.com/api/users</a
     >
+    <div
+      id="g_id_onload"
+      data-client_id="1060578655423-0bv5aq094eukj311e363b24r2ql9beke.apps.googleusercontent.com"
+      data-login_uri="http://localhost:5000"
+      data-auto_prompt="false"
+      data-callback="handleCredentialResponse"
+    ></div>
+    <div
+      class="g_id_signin"
+      data-type="standard"
+      data-size="medium"
+      data-theme="outline"
+      data-text="sign_in_with"
+      data-shape="rectangular"
+      data-logo_alignment="left"
+    ></div>
+    <script src="./js/google.login.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
   </body>
 </html>
