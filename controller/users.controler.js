@@ -1,11 +1,7 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/user.model");
 const { request } = require("express");
-const { writeFileSync } = require("fs");
-
-const writeLog = (err) => {
-  writeFileSync("log.txt", `${err.toString()} \n`, { flag: "a+" });
-};
+const writeLog = require("../log/log");
 
 const handleGetAllUsers = async (req, res) => {
   const { limit = 5, from = 0 } = req.query;

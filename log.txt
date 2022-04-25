@@ -24,3 +24,5 @@ MongoServerError: E11000 duplicate key error collection: FireShackDB.users index
 MongoServerError: E11000 duplicate key error collection: FireShackDB.users index: mail_1 dup key: { mail: "franco@gmail.com" } 
 ValidationError: role: `SALES_ROLE` is not a valid enum value for path `role`. 
 ValidationError: role: `SALES_ROLE` is not a valid enum value for path `role`. 
+Error: Illegal arguments: string, undefined 
+Error: Illegal arguments: string, undefined 
