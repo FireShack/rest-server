@@ -4,6 +4,7 @@ const {
   handleGetProducts,
   handleCreateProducts,
   handleModifyProducts,
+  handleDeleteProducts,
 } = require("../controller/products.controller");
 const {
   categoryExists,
@@ -54,6 +55,18 @@ products.put(
     validateFields,
   ],
   handleModifyProducts
+);
+
+products.delete(
+  "/products/delete/:id",
+  [
+    validateJWT,
+    validateRole("ADMIN_ROLE", "SALES_ROLE"),
+    check("id").isMongoId(),
+    check("id").custom(productExistsForID),
+    validateFields,
+  ],
+  handleDeleteProducts
 );
 
 module.exports = products;

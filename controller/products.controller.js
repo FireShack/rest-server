@@ -64,8 +64,25 @@ const handleModifyProducts = async (req, res) => {
   }
 };
 
+const handleDeleteProducts = async (req, res) => {
+  const { id } = req.params;
+  const userID = req.uid;
+  try {
+    await productsModel.findByIdAndUpdate(id, {
+      state: false,
+      user: userID,
+    });
+
+    res.status(200).json({ msg: `Product with ID ${id} deleted successfully` });
+  } catch (error) {
+    res.status(400).json({ msg: "There was an error", error });
+    writeLog(error);
+  }
+};
+
 module.exports = {
   handleGetProducts,
   handleCreateProducts,
   handleModifyProducts,
+  handleDeleteProducts,
 };

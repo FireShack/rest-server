@@ -97,10 +97,12 @@ const handleModifyCategories = async (req, res) => {
 
 const handleDeleteCategories = async (req, res) => {
   const { id } = req.params;
+  const userID = req.uid;
   try {
     // Find the cateogry and change the state to "false"
     const categoryToDelete = await categoryModel.findByIdAndUpdate(id, {
       state: false,
+      user: userID,
     });
     res.status(200).json({ msg: "Category deleted", id, categoryToDelete });
   } catch (error) {
