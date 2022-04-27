@@ -5,6 +5,7 @@ const user = require("./routes/user.js");
 const auth = require("./routes/auth.js");
 const { dbConnection } = require("./database/config.js");
 const categories = require("./routes/categories.js");
+const products = require("./routes/products.js");
 
 const app = express();
 const port = process.env.PORT;
@@ -20,6 +21,7 @@ dbConnection();
 app.use("/api/users", user);
 app.use("/api/auth", auth);
 app.use("/api/market", categories);
+app.use("/api/market", products);
 
 app.listen(port, () =>
   console.log(`Server running on port http://localhost:${port}`)

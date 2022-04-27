@@ -10,13 +10,18 @@ const {
 const {
   categoryExists,
   categoryNotExists,
+  categoryExistsForDelete,
 } = require("../helpers/db.validator");
 const { validateFields, validateRole, validateJWT } = require("../middlewares");
 
 const categories = express.Router();
 
 categories.get("/categories", handleCategories);
-categories.get("/categories/:id", handleGetOneCategory);
+categories.get(
+  "/categories/:id",
+  [check("id").isMongoId(), check("id").custom(categoryExists), validateFields],
+  handleGetOneCategory
+);
 
 categories.post(
   "/categories/create",
@@ -53,6 +58,7 @@ categories.delete(
     validateJWT,
     validateRole("ADMIN_ROLE", "SALES_ROLE"),
     check("id", "Wrong ID").isMongoId(),
+    check("id", "Category does not exists").custom(categoryExistsForDelete),
     validateFields,
   ],
   handleDeleteCategories

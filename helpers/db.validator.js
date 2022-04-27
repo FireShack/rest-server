@@ -36,8 +36,15 @@ const categoryExists = async (name = "") => {
 const categoryNotExists = async (name = "") => {
   const NAME = name.toUpperCase();
   const category = await categoryModel.findOne({ name: NAME });
-  if (!category) {
+  if (!category || !category.state) {
     throw new Error(`The category ${NAME} does not exists`);
+  }
+};
+
+const categoryExistsForDelete = async (id = "") => {
+  const category = await categoryModel.findById({ _id: id });
+  if (!category || !category.state) {
+    throw new Error(`Category with id ${id} does not exists`);
   }
 };
 
@@ -47,4 +54,5 @@ module.exports = {
   userExists,
   categoryExists,
   categoryNotExists,
+  categoryExistsForDelete,
 };
