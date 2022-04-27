@@ -1,4 +1,5 @@
 const logOutButton = document.querySelector("#google-logout");
+
 function handleCredentialResponse(response) {
   const body = { id_token: response.credential };
   fetch("https://http-server-template.herokuapp.com/api/auth/login/google", {
