@@ -21,6 +21,23 @@ const handleGetProducts = async (req, res) => {
   }
 };
 
+const handleGetOneProduct = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const GetOneProduct = await productsModel
+      .findById({ _id: id })
+      .populate("category");
+
+    res.status(200).json({
+      msg: "This are the products",
+      product: GetOneProduct,
+    });
+  } catch (error) {
+    res.status(400).json({ msg: "There was an error", error });
+    writeLog(error);
+  }
+};
+
 const handleCreateProducts = async (req, res) => {
   try {
     const { name, description, price, category } = req.body;
@@ -85,4 +102,5 @@ module.exports = {
   handleCreateProducts,
   handleModifyProducts,
   handleDeleteProducts,
+  handleGetOneProduct,
 };

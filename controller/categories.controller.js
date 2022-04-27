@@ -1,16 +1,16 @@
 const writeLog = require("../log/log");
 const categoryModel = require("../models/category.model");
-const userModel = require("../models/user.model");
+// const userModel = require("../models/user.model");
 
 const handleGetOneCategory = async (req, res) => {
   const { id } = req.params;
   try {
+    // You also can use this method
     // Check the category
     // const categoryToGet = await categoryModel.findById(id);
     // Check the user that modified that category
     // const userModificator = await userModel.findById(categoryToGet.user);
 
-    // You also can use this method
     const GetOneCategory = await categoryModel.findById(id).populate("user");
 
     // Send all data

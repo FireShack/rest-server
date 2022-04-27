@@ -5,10 +5,9 @@ const {
   handleCreateProducts,
   handleModifyProducts,
   handleDeleteProducts,
+  handleGetOneProduct,
 } = require("../controller/products.controller");
 const {
-  categoryExists,
-  categoryNotExists,
   categoryExistsForDelete,
   productExistsForID,
 } = require("../helpers/db.validator");
@@ -17,6 +16,15 @@ const { validateJWT, validateRole, validateFields } = require("../middlewares");
 const products = express.Router();
 
 products.get("/products", handleGetProducts);
+products.get(
+  "/products/:id",
+  [
+    check("id").isMongoId(),
+    check("id").custom(productExistsForID),
+    validateFields,
+  ],
+  handleGetOneProduct
+);
 products.post(
   "/products/create",
   [
