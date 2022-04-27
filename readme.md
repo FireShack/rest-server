@@ -9,17 +9,23 @@ You can access to the link in the description, there you will find the endpoints
 ## Some information
 
 This "shell" includes validated routes, own middlewares, designed mongo's schemas,
-Mongo DB operations with Mongoose (ODM) and some more features. If you want to use it, 
-you can modify all the data, and change it by your own. To use your own Mongo database, 
-fill the DB_CNN into the .env file. 
+Mongo DB operations with Mongoose (ODM) and some more features. If you want to use it,
+you can modify all the data, and change it by your own. To use your own Mongo database,
+fill the DB_CNN into the **example.env** file.
 
 ## How to use it?
 
 1. First you need to clone the repository
+
 2. After that, you need to download all packages (are detailed at last)
+
 3. Once you have all installed, you need to set your enviroment variables, this ones are
-   into the **.env** file. Here you can set the port or some connections.
-4. All is ready, you can already use your own server
+   into the **example.env** file. There you can set the port or some connections
+
+4. There are a lot of Schemas and DB operations, maybe you want to change all and define
+   your own data, but the core is it and using it will save a lot of time!
+
+5. All is ready, you can use your own server
 
 ## Dependencies
 
@@ -31,3 +37,12 @@ fill the DB_CNN into the .env file.
 - Express-validator
 - Bcrypt.js
 - Mongoose
+- JWT
+- Google Auth
+
+## Notice
+
+The last update includes new schemas, connections to DB, routes, controllers and a lot functionalities like
+the search option, the refs to categories and products.
+
+Good Code!
