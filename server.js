@@ -23,7 +23,7 @@ app.use("/api/users", user);
 app.use("/api/auth", auth);
 app.use("/api/market", categories);
 app.use("/api/market", products);
-app.use("/api/market", search);
+app.use("/api/search", search);
 
 app.listen(port, () =>
   console.log(`Server running on port http://localhost:${port}`)
