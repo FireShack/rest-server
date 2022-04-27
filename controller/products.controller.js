@@ -32,7 +32,29 @@ const handleCreateProducts = async (req, res) => {
   }
 };
 
+const handleModifyProducts = async (req, res) => {
+  const { id } = req.params;
+  const { name, description, price, category } = req.body;
+  const userID = req.uid;
+  const NAME = name.toUpperCase();
+  try {
+    await productsModel.findByIdAndUpdate(id, {
+      name: NAME,
+      description,
+      price,
+      category,
+      user: userID,
+    });
+
+    res.status(200).json({ msg: `Product ${NAME} modified successfully` });
+  } catch (error) {
+    res.status(400).json({ msg: "There was an error", error });
+    writeLog(error);
+  }
+};
+
 module.exports = {
   handleGetProducts,
   handleCreateProducts,
+  handleModifyProducts,
 };

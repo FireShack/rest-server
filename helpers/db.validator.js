@@ -1,4 +1,5 @@
 const categoryModel = require("../models/category.model");
+const productsModel = require("../models/products.model");
 const RoleModel = require("../models/role.model");
 const UserModel = require("../models/user.model");
 
@@ -48,6 +49,13 @@ const categoryExistsForDelete = async (id = "") => {
   }
 };
 
+const productExistsForID = async (id = "") => {
+  const product = await productsModel.findById({ _id: id });
+  if (!product || !product.state) {
+    throw new Error(`Product with id ${id} does not exists`);
+  }
+};
+
 module.exports = {
   validRole,
   validMail,
@@ -55,4 +63,5 @@ module.exports = {
   categoryExists,
   categoryNotExists,
   categoryExistsForDelete,
+  productExistsForID,
 };
