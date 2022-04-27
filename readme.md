@@ -43,6 +43,6 @@ fill the DB_CNN into the **example.env** file.
 ## Notice
 
 The last update includes new schemas, connections to DB, routes, controllers and a lot functionalities like
-the search option, the refs to categories and products.
+the search option or the refs to categories and products.
 
 Good Code!
