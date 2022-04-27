@@ -34,7 +34,6 @@ products.post(
     check("description", "The description is empty").not().isEmpty(),
     check("description", "The description is too short").isLength({
       min: 8,
-      max: 45,
     }),
     check("category", "The category is empty").not().isEmpty(),
     check("category", "The category's ID is wrong").isMongoId(),
@@ -55,7 +54,6 @@ products.put(
     check("description", "The description is empty").not().isEmpty(),
     check("description", "The description is too short").isLength({
       min: 8,
-      max: 45,
     }),
     check("category", "The category is empty").not().isEmpty(),
     check("category", "The category's ID is wrong").isMongoId(),

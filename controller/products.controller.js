@@ -7,7 +7,7 @@ const handleGetProducts = async (req, res) => {
   try {
     const [productsAmount, allProducts] = await Promise.all([
       productsModel.countDocuments(qDB),
-      productsModel.find(qDB).populate("category").limit(limit).skip(from),
+      productsModel.find(qDB).populate("category", "name").populate("user", "name").limit(limit).skip(from),
     ]);
 
     res.status(200).json({
@@ -26,7 +26,8 @@ const handleGetOneProduct = async (req, res) => {
   try {
     const GetOneProduct = await productsModel
       .findById({ _id: id })
-      .populate("category");
+      .populate("category", "name")
+      .populate("user", "name");
 
     res.status(200).json({
       msg: "This are the products",
