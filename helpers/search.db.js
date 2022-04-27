@@ -60,9 +60,11 @@ const searchProducts = async (res = response, param) => {
   try {
     // Search the name. This is not key sensitive.
     const regEx = new RegExp(param, "i");
-    const findCategoryByName = await productsModel.find({
-      name: regEx,
-    });
+    const findCategoryByName = await productsModel
+      .find({
+        name: regEx,
+      })
+      .populate("category", "name");
 
     // If it's found, send it. If anything match, return an empty array
     res.status(200).json({
