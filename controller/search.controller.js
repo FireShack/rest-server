@@ -1,6 +1,7 @@
 const { response } = require("express");
 const { ObjectId } = require("mongoose").Types;
 const writeLog = require("../log/log");
+const categoryModel = require("../models/category.model");
 const userModel = require("../models/user.model");
 
 const allowedCollections = ["users", "products", "categories", "roles"];
@@ -25,13 +26,32 @@ const searchUSers = async (res = response, param) => {
       $or: [{ name: regEx }, { mail: regEx }],
     });
 
-    // If you it's found, send it. If anything match, return an empty array
+    // If it's found, send it. If anything match, return an empty array
     if (findUserByName) {
       return res.status(200).json({
         msg: `The user that you are searching`,
         result: findUserByName ? [findUserByName] : [],
       });
     }
+  } catch (error) {
+    res.status(400).json({ msg: "There was an error", error });
+    writeLog(error);
+  }
+};
+
+const searchCategories = async (res = response, param) => {
+  try {
+    // Search the name. This is not key sensitive.
+    const regEx = new RegExp(param, "i");
+    const findCategoryByName = await categoryModel.find({
+      name: regEx,
+    });
+
+    // If you it's found, send it. If anything match, return an empty array
+    res.status(200).json({
+      msg: `The category that you are searching`,
+      result: findCategoryByName ? [findCategoryByName] : [],
+    });
   } catch (error) {
     res.status(400).json({ msg: "There was an error", error });
     writeLog(error);
@@ -54,8 +74,7 @@ const handleSearch = (req, res) => {
       case "users":
         return searchUSers(res, params);
       case "categories":
-        res.status(200).json({ collection, params });
-        break;
+        return searchCategories(res, params);
       case "products":
         break;
       case "roles":
