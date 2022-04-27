@@ -2,8 +2,19 @@ const writeLog = require("../log/log");
 const productsModel = require("../models/products.model");
 
 const handleGetProducts = async (req, res) => {
+  const { limit = 5, from = 0 } = req.query;
+  const qDB = { state: true };
   try {
-    res.status(200).json({ msg: "This are the products" });
+    const [productsAmount, allProducts] = await Promise.all([
+      productsModel.countDocuments(qDB),
+      productsModel.find(qDB).populate("category").limit(limit).skip(from),
+    ]);
+
+    res.status(200).json({
+      msg: "This are the products",
+      amount: productsAmount,
+      products: allProducts,
+    });
   } catch (error) {
     res.status(400).json({ msg: "There was an error", error });
     writeLog(error);
