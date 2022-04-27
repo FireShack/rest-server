@@ -2,20 +2,19 @@ const writeLog = require("../log/log");
 const categoryModel = require("../models/category.model");
 const userModel = require("../models/user.model");
 
-// TODO GET only one cateogry (READY)
-// TODO add populate to the GET to see the user that add or modified a product
-// TODO Delete category and change to state: false
-
 const handleGetOneCategory = async (req, res) => {
   const { id } = req.params;
   try {
     const categoryToGet = await categoryModel.findById(id);
     const userModificator = await userModel.findById(categoryToGet.user);
 
+    // const GetOneCategory = await categoryModel.findById(id).populate("user");
+
     res.status(200).json({
       msg: "Getting this product",
       category: categoryToGet,
       "Last modification by": userModificator,
+      // category: GetOneCategory,
     });
   } catch (error) {
     res.status(400).json({ msg: "There was an error", id, error });
@@ -47,20 +46,17 @@ const handleCreateCategories = async (req, res) => {
   const userID = req.uid;
   try {
     const NAME = name.toUpperCase();
-    const categoryExists = await categoryModel.findOne({ name: NAME });
-    if (categoryExists) {
-      return res.status(400).json({ msg: "That category already exists" });
-    }
 
     const newCategory = new categoryModel({
       name: NAME,
       description,
       user: userID,
     });
+
     await newCategory.save();
     res.status(200).json({ msg: "New category added:", newCategory });
   } catch (error) {
-    res.status(400).json({ msg: "There was an error", error });
+    res.status(400).json({ msg: `The arguments are incorrect ${error}` });
     writeLog(error);
   }
 };
@@ -76,11 +72,6 @@ const handleModifyCategories = async (req, res) => {
       user: userID,
       description,
     });
-    // if (!productExists) {
-    //   return res
-    //     .status(400)
-    //     .json({ msg: `Product with id: "${id}" does not exists` });
-    // }
 
     res.status(200).json({
       msg: "Category modified",

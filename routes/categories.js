@@ -7,18 +7,28 @@ const {
   handleDeleteCategories,
   handleGetOneCategory,
 } = require("../controller/categories.controller");
+const {
+  categoryExists,
+  categoryNotExists,
+} = require("../helpers/db.validator");
 const { validateFields, validateRole, validateJWT } = require("../middlewares");
 
 const categories = express.Router();
-
-// TODO Own middleware to validate if caregory exists
 
 categories.get("/categories", handleCategories);
 categories.get("/categories/:id", handleGetOneCategory);
 
 categories.post(
   "/categories/create",
-  [validateJWT, validateRole("ADMIN_ROLE", "SALES_ROLE"), validateFields],
+  [
+    validateJWT,
+    validateRole("ADMIN_ROLE", "SALES_ROLE"),
+    check("name", "Name value is empty").not().isEmpty(),
+    check("name").custom(categoryExists),
+    check("description", "The description is empty").not().isEmpty(),
+    check("description", "The description is empty").isLength({ max: 40 }),
+    validateFields,
+  ],
   handleCreateCategories
 );
 
@@ -28,6 +38,10 @@ categories.put(
     validateJWT,
     validateRole("ADMIN_ROLE", "SALES_ROLE"),
     check("id", "Wrong ID").isMongoId(),
+    check("name", "Name value is empty").not().isEmpty(),
+    check("name").custom(categoryNotExists),
+    check("description", "Description too large").isLength({ max: 40 }),
+    check("description", "The description is empty").not().isEmpty(),
     validateFields,
   ],
   handleModifyCategories

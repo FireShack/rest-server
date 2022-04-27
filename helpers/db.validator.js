@@ -1,3 +1,4 @@
+const categoryModel = require("../models/category.model");
 const RoleModel = require("../models/role.model");
 const UserModel = require("../models/user.model");
 
@@ -24,8 +25,26 @@ const userExists = async (id = "") => {
   }
 };
 
+const categoryExists = async (name = "") => {
+  const NAME = name.toUpperCase();
+  const category = await categoryModel.findOne({ name: NAME });
+  if (category) {
+    throw new Error(`The category ${NAME} already exists`);
+  }
+};
+
+const categoryNotExists = async (name = "") => {
+  const NAME = name.toUpperCase();
+  const category = await categoryModel.findOne({ name: NAME });
+  if (!category) {
+    throw new Error(`The category ${NAME} does not exists`);
+  }
+};
+
 module.exports = {
   validRole,
   validMail,
   userExists,
+  categoryExists,
+  categoryNotExists,
 };
