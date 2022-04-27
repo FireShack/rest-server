@@ -27,7 +27,43 @@ fill the DB_CNN into the **example.env** file.
 
 5. All is ready, you can use your own server
 
+## Endpoints
+
+### Users
+
+http://localhost:port/api/users/ (GET)
+http://localhost:port/api/users/:id (GET one)
+http://localhost:port/api/users/ (POST)
+http://localhost:port/api/users/:id (PUT)
+http://localhost:port/api/users/:id (DELETE)
+
+### Auth
+
+http://localhost:port/api/auth/login (POST)
+http://localhost:port/api/auth/login/google (POST)
+
+### Categories
+
+http://localhost:port/api/market (GET)
+http://localhost:port/api/market/categories/:id (GET one)
+http://localhost:port/api/market/categories/create (POST)
+http://localhost:port/api/market/categories/modify/:id (PUT)
+http://localhost:port/api/market/categories/delete/:id (DELETE)
+
+### Products
+
+http://localhost:port/api/market/products (GET)
+http://localhost:port/api/market/products/create (POST)
+http://localhost:port/api/market/products/modify/:id (PUT)
+http://localhost:port/api/market/products/delete/:id (DELETE)
+
+### Search
+
+http://localhost:port/api/search/:collection/:params (GET)
+
 ## Dependencies
+
+You can execute _npm install_
 
 - Node.js
 - Express
