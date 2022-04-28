@@ -7,6 +7,7 @@ const { dbConnection } = require("./database/config.js");
 const categories = require("./routes/categories.js");
 const products = require("./routes/products.js");
 const search = require("./routes/search.js");
+const files = require("./routes/files.js");
 
 const app = express();
 const port = process.env.PORT;
@@ -24,7 +25,7 @@ app.use("/api/auth", auth);
 app.use("/api/market", categories);
 app.use("/api/market", products);
 app.use("/api/search", search);
-// app.use("/api/files", files);
+app.use("/api/files", files);
 
 app.listen(port, () =>
   console.log(`Server running on port http://localhost:${port}`)
