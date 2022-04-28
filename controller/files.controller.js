@@ -1,5 +1,4 @@
-const uniqid = require("uniqid");
-const path = require("path");
+const validateUpload = require("../helpers/validate.upload");
 const writeLog = require("../log/log");
 
 const handleGetFiles = (req, res) => {
@@ -11,34 +10,17 @@ const handleGetFiles = (req, res) => {
   }
 };
 
-const handlePostFiles = (req, res) => {
+const handlePostFiles = async (req, res) => {
   const { file } = req.files;
-  const shortName = file.name.split(".");
-  const validExt = ["jpg", "png", "jpeg", "gif"];
-  const ext = shortName[shortName.length - 1];
-
   try {
-    if (!validExt.includes(ext)) {
-      return res.status(400).json({
-        msg: `The ${ext} extension is not valid`,
-        "Valid extensions:": validExt,
-      });
-    }
-
     if (!req.files) {
       return res
         .status(400)
         .json({ msg: "You must provide at least one file" });
     }
-    const tempName = `${uniqid()}.${ext}`;
-    const uploadPath = path.join(__dirname, "../uploads/", tempName);
+    await validateUpload(file);
 
-    file.mv(uploadPath, (err) => {
-      if (err) {
-        return res.status(400).json({ msg: "There was an error", err });
-      }
-      res.status(200).json({ msg: "File added successfully", file });
-    });
+    res.status(200).json({ msg: "File loaded successfully", file });
   } catch (error) {
     res.status(400).json({ msg: "There was an error", error });
     writeLog();
