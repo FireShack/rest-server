@@ -18,7 +18,7 @@ const handlePostFiles = async (req, res) => {
         .status(400)
         .json({ msg: "You must provide at least one file" });
     }
-    await validateUpload(file);
+    await validateUpload(file, ["jpg"], "imgs");
 
     res.status(200).json({ msg: "File loaded successfully", file });
   } catch (error) {

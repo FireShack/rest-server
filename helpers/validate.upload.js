@@ -1,5 +1,6 @@
 const uniqid = require("uniqid");
 const path = require("path");
+const writeLog = require("../log/log");
 
 const validateUpload = (
   file,
@@ -11,7 +12,7 @@ const validateUpload = (
     const ext = shortName[shortName.length - 1];
 
     if (!validExt.includes(ext)) {
-      return reject(`The ${ext} extension is not valid`, validExt);
+      return reject(`The ${ext} extension is not valid. Expected ${validExt}`);
     }
 
     const tempName = `${uniqid()}.${ext}`;
@@ -19,6 +20,7 @@ const validateUpload = (
 
     file.mv(uploadPath, (err) => {
       if (err) {
+        writeLog(err);
         return reject("There was an error", err);
       }
       resolve("File added successfully", file);
