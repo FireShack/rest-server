@@ -10,8 +10,9 @@ const handleGetFiles = (req, res) => {
 };
 
 const handlePostFiles = (req, res) => {
+  const file = req.files;
   try {
-    res.status(200).json({ msg: "File added successfully" });
+    res.status(200).json({ msg: "File added successfully", file });
   } catch (error) {
     res.status(400).json({ msg: "There was an error", error });
     writeLog();

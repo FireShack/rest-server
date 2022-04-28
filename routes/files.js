@@ -10,6 +10,7 @@ const {
 const files = express.Router();
 
 files.get("/", handleGetFiles);
+files.get("/add", handleGetFiles);
 files.post("/add", handlePostFiles);
 files.put("/modify/:id", handlePutFiles);
 files.delete("/delete/:id", handleDeleteFiles);

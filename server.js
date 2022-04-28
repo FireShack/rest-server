@@ -8,6 +8,7 @@ const categories = require("./routes/categories.js");
 const products = require("./routes/products.js");
 const search = require("./routes/search.js");
 const files = require("./routes/files.js");
+const fileUpload = require("express-fileupload");
 
 const app = express();
 const port = process.env.PORT;
@@ -16,6 +17,13 @@ const port = process.env.PORT;
 app.use(express.static("public"));
 app.use(cors());
 app.use(express.json()); // Parse JSON petitions
+//Handle files
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/",
+  })
+);
 // DB connection
 dbConnection();
 
