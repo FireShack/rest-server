@@ -23,7 +23,7 @@ const validateUpload = (
         writeLog(err);
         return reject("There was an error", err);
       }
-      resolve("File added successfully", file);
+      resolve(tempName);
     });
   });
 };

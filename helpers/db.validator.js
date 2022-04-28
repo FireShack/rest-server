@@ -1,7 +1,7 @@
 const categoryModel = require("../models/category.model");
 const productsModel = require("../models/products.model");
 const RoleModel = require("../models/role.model");
-const UserModel = require("../models/user.model");
+const userModel = require("../models/user.model");
 
 const validRole = async (role = "") => {
   // Check if role exists into the DB
@@ -56,6 +56,24 @@ const productExistsForID = async (id = "") => {
   }
 };
 
+const validateCollectionsFiles = async (collection = "", collections = []) => {
+  const include = collections.includes(collection);
+  if (!include) {
+    throw new Error(
+      `The collection ${collection} is not allowed. Expect ${collections}.`
+    );
+  }
+  return true;
+};
+
+const validateFileIntoCollection = async (id = "", collection = "") => {
+  const idExistsInCollec = await userModel.findOne(id);
+  
+  if (!idExistsInCollec) {
+    throw new Error(`The file ${id} does not exists intot ${collection}`);
+  }
+};
+
 module.exports = {
   validRole,
   validMail,
@@ -64,4 +82,6 @@ module.exports = {
   categoryNotExists,
   categoryExistsForDelete,
   productExistsForID,
+  validateCollectionsFiles,
+  validateFileIntoCollection,
 };
