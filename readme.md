@@ -25,7 +25,7 @@ _npm start_ runs **node server.js** so we should run to start the server.
 3. Once you have all installed, you need to set your enviroment variables, this ones are
    into the **example.env** file. There you can set the port or some connections
 
-4. After that, must run the test script.
+4. After that, must run the test script
 
 5. There are a lot of Schemas and DB operations, maybe you want to change all and define
    your own data, but the core is it and using it will save a lot of time!
