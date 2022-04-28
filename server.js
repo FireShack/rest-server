@@ -27,7 +27,7 @@ app.use(
 // DB connection
 dbConnection();
 
-// Main route
+// Main routes
 app.use("/api/users", user);
 app.use("/api/auth", auth);
 app.use("/api/market", categories);

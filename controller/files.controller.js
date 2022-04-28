@@ -1,3 +1,4 @@
+const path = require("path");
 const writeLog = require("../log/log");
 
 const handleGetFiles = (req, res) => {
@@ -10,9 +11,21 @@ const handleGetFiles = (req, res) => {
 };
 
 const handlePostFiles = (req, res) => {
-  const file = req.files;
+  const { file } = req.files;
   try {
-    res.status(200).json({ msg: "File added successfully", file });
+    if (!req.files) {
+      return res
+        .status(400)
+        .json({ msg: "You must provide at least one file" });
+    }
+    const uploadPath = path.join(__dirname, "../uploads/", file.name);
+
+    file.mv(uploadPath, (err) => {
+      if (err) {
+        return res.status(400).json({ msg: "There was an error", err });
+      }
+      res.status(200).json({ msg: "File added successfully", file });
+    });
   } catch (error) {
     res.status(400).json({ msg: "There was an error", error });
     writeLog();
