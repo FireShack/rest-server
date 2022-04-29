@@ -9,6 +9,7 @@ const {
 const { validateFields } = require("../middlewares");
 const { validateCollectionsFiles } = require("../helpers/db.validator");
 const validateFile = require("../helpers/validate.file");
+// const searchImgInDB = require("../middlewares/validate.img");
 
 const files = express.Router();
 
@@ -36,7 +37,14 @@ files.post(
 );
 files.put(
   "/modify/:collection/:id",
-  [check("id", "Invalid ID").isMongoId(), validateFile, validateFields],
+  [
+    check("id", "Invalid ID").isMongoId(),
+    check("collection").custom((userCollection) =>
+      validateCollectionsFiles(userCollection, ["users", "products"])
+    ),
+    validateFile,
+    validateFields,
+  ],
   handlePutcloudinaryFiles
 );
 files.delete("/delete/:collection/:id", handleDeleteFiles);

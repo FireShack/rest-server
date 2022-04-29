@@ -8,9 +8,9 @@ const productsModel = require("../models/products.model");
 const userModel = require("../models/user.model");
 
 const handleGetFiles = async (req, res) => {
+  //   const model = req.model;
   const { collection, id } = req.params;
   let model;
-  const defaultImg = path.join(__dirname, "../assests/no-image.jpg");
   try {
     switch (collection) {
       case "users":
@@ -33,21 +33,10 @@ const handleGetFiles = async (req, res) => {
       default:
         return res.status(500).json({ msg: "The collection does not exists" });
     }
-
     if (!model.img) {
       return res.json({
         img: "https://res.cloudinary.com/fire-shack/image/upload/v1651243759/unm1im5ocbshpvkvafsv.jpg",
       });
-      //   const pathImg = path.join(
-      //     __dirname,
-      //     "../uploads/",
-      //     collection,
-      //     model.img
-      //   );
-      //   if (fs.existsSync(pathImg)) {
-      //     return res.sendFile(pathImg);
-      //   } else {
-      //   }
     }
     res.status(200).json({ img: model.img });
   } catch (error) {
@@ -198,7 +187,6 @@ const handlePutcloudinaryFiles = async (req, res) => {
       "New img": cloudinaryUpload,
     });
   } catch (error) {
-    console.log(error);
     res.status(400).json({ msg: "There was an error", error });
     writeLog(error);
   }
@@ -243,7 +231,6 @@ const handleDeleteFiles = async (req, res) => {
       msg: `File ${id} deleted successfully`,
       model,
     });
-    res.status(200).json({ msg: `File ${id} deleted successfully` });
   } catch (error) {
     res.status(400).json({ msg: "There was an error", error });
     writeLog(error);
