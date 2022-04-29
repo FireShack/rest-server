@@ -79,6 +79,20 @@ I used Mongo Compass to see the DB. More info about [Mongo](https://www.mongodb.
 
 - http://localhost:port/api/search/:collection/:params (GET)
 
+### Files
+
+- http://localhost:5000/api/files/:collection/:id (GET)
+- http://localhost:5000/api/files/add/:collection/:id (POST)
+- http://localhost:5000/api/files/modify/:collection/:id (PUT)
+- http://localhost:5000/api/files/delete/:collection/:id (DELETE)
+
+Note that all this routes work with Cloudinary. You must create an account and get the secret key. This must be
+declare into your _.env_ file. When the image is uploaded an unique ID is created, then the DB saves the cloudinary
+secure_link. That link will be called to GET the image from Cloudinary. All the routes are validated.
+
+In this endpoints, the GET methods charge the user's img, like the profile image. The POST and PUT method, for the moment, works the same. They update the user's image. The DELETE method remove the file uploaded by the user from
+Cloudinary.
+
 ## POSTMAN documentation
 
 You can test all this rest api endpoints with the available link into the description, or cloning this
@@ -99,10 +113,10 @@ You can execute _npm install_
 - Mongoose
 - JWT
 - Google Auth
+- Cloudinary
 
 ## Notice
 
-The last update includes new schemas, connections to DB, routes, controllers and a lot functionalities like
-the search option or the refs to categories and products.
+The last update includes a complete files upload functionality, completely tested and validated. This services works with Cloudinary.
 
 Good Code!
