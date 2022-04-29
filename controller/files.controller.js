@@ -1,12 +1,51 @@
+const path = require("path");
+const fs = require("fs");
 const validateUpload = require("../helpers/validate.upload");
 const writeLog = require("../log/log");
 const productsModel = require("../models/products.model");
 const userModel = require("../models/user.model");
 
-const handleGetFiles = (req, res) => {
-  const { id } = req.params;
+const handleGetFiles = async (req, res) => {
+  const { collection, id } = req.params;
+
+  let model;
+
   try {
-    res.status(200).json({ msg: `This is the file ${id}` });
+    switch (collection) {
+      case "users":
+        model = await userModel.findById({ _id: id });
+        if (!model) {
+          return res
+            .status(404)
+            .json({ msg: `The file ${id} does not exists` });
+        }
+        break;
+      case "products":
+        model = await productsModel.findById({ _id: id });
+        if (!model) {
+          return res
+            .status(404)
+            .json({ msg: `The file ${id} does not exists` });
+        }
+        break;
+
+      default:
+        return res.status(500).json({ msg: "The collection does not exists" });
+    }
+
+    if (model.img) {
+      const pathImg = path.join(
+        __dirname,
+        "../uploads/",
+        collection,
+        model.img
+      );
+      if (fs.existsSync(pathImg)) {
+        return res.sendFile(pathImg);
+      } else {
+        res.status(404).json({ msg: "The image does not exists any more" });
+      }
+    }
   } catch (error) {
     res.status(400).json({ msg: "There was an error", error });
     writeLog(error);
@@ -15,15 +54,46 @@ const handleGetFiles = (req, res) => {
 
 const handlePostFiles = async (req, res) => {
   const { file } = req.files;
+  const { collection, id } = req.params;
   try {
-    if (!req.files) {
-      return res
-        .status(400)
-        .json({ msg: "You must provide at least one file" });
-    }
-    await validateUpload(file, ["jpg"], "imgs");
+    switch (collection) {
+      case "users":
+        model = await userModel.findById({ _id: id });
+        if (!model) {
+          return res
+            .status(400)
+            .json({ msg: `The file ${id} has been already uploaded` });
+        }
+        break;
+      case "products":
+        model = await productsModel.findById({ _id: id });
+        if (!model) {
+          return res
+            .status(400)
+            .json({ msg: `The file ${id} has been already uploaded` });
+        }
+        break;
 
-    res.status(200).json({ msg: "File loaded successfully", file });
+      default:
+        return res.status(500).json({ msg: "The collection does not exists" });
+    }
+
+    if (model.img) {
+      const pathImg = path.join(
+        __dirname,
+        "../uploads/",
+        collection,
+        model.img
+      );
+      if (fs.existsSync(pathImg)) {
+        fs.unlinkSync(pathImg);
+      }
+    }
+
+    const newImg = await validateUpload(file, undefined, collection);
+    model.img = newImg;
+    await model.save();
+    res.status(200).json({ msg: "File saved successfully", newImg });
   } catch (error) {
     res.status(400).json({ msg: "There was an error", error });
     writeLog(error);
@@ -55,6 +125,18 @@ const handlePutFiles = async (req, res) => {
 
       default:
         return res.status(500).json({ msg: "The collection does not exists" });
+    }
+
+    if (model.img) {
+      const pathImg = path.join(
+        __dirname,
+        "../uploads/",
+        collection,
+        model.img
+      );
+      if (fs.existsSync(pathImg)) {
+        fs.unlinkSync(pathImg);
+      }
     }
 
     const newImg = await validateUpload(file, undefined, collection);
