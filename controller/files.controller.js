@@ -34,19 +34,22 @@ const handleGetFiles = async (req, res) => {
         return res.status(500).json({ msg: "The collection does not exists" });
     }
 
-    if (model.img) {
-      const pathImg = path.join(
-        __dirname,
-        "../uploads/",
-        collection,
-        model.img
-      );
-      if (fs.existsSync(pathImg)) {
-        return res.sendFile(pathImg);
-      } else {
-        res.sendFile(defaultImg);
-      }
+    if (!model.img) {
+      return res.json({
+        img: "https://res.cloudinary.com/fire-shack/image/upload/v1651243759/unm1im5ocbshpvkvafsv.jpg",
+      });
+      //   const pathImg = path.join(
+      //     __dirname,
+      //     "../uploads/",
+      //     collection,
+      //     model.img
+      //   );
+      //   if (fs.existsSync(pathImg)) {
+      //     return res.sendFile(pathImg);
+      //   } else {
+      //   }
     }
+    res.status(200).json({ img: model.img });
   } catch (error) {
     res.status(400).json({ msg: "There was an error", error });
     writeLog(error);
@@ -201,8 +204,45 @@ const handlePutcloudinaryFiles = async (req, res) => {
   }
 };
 
-const handleDeleteFiles = (req, res) => {
+const handleDeleteFiles = async (req, res) => {
+  const { collection, id } = req.params;
+  let model;
   try {
+    switch (collection) {
+      case "users":
+        model = await userModel.findById({ _id: id });
+        if (!model) {
+          return res
+            .status(400)
+            .json({ msg: `The file ${id} does not exists` });
+        }
+        break;
+      case "products":
+        model = await productsModel.findById({ _id: id });
+        if (!model) {
+          return res
+            .status(400)
+            .json({ msg: `The file ${id} does not exists` });
+        }
+        break;
+
+      default:
+        return res.status(500).json({ msg: "The collection does not exists" });
+    }
+    if (model.img) {
+      const nameArr = model.img.split("/");
+      const fileName = nameArr[nameArr.length - 1];
+      const [public_id] = fileName.split(".");
+      cloudinary.uploader.destroy(public_id);
+    }
+
+    model.img = "";
+    await model.save();
+
+    res.status(200).json({
+      msg: `File ${id} deleted successfully`,
+      model,
+    });
     res.status(200).json({ msg: `File ${id} deleted successfully` });
   } catch (error) {
     res.status(400).json({ msg: "There was an error", error });

@@ -3,7 +3,6 @@ const express = require("express");
 const {
   handleGetFiles,
   handlePostFiles,
-  handlePutFiles,
   handleDeleteFiles,
   handlePutcloudinaryFiles,
 } = require("../controller/files.controller");
@@ -40,6 +39,6 @@ files.put(
   [check("id", "Invalid ID").isMongoId(), validateFile, validateFields],
   handlePutcloudinaryFiles
 );
-files.delete("/delete/:id", handleDeleteFiles);
+files.delete("/delete/:collection/:id", handleDeleteFiles);
 
 module.exports = files;
