@@ -9,7 +9,7 @@ const handleGetFiles = async (req, res) => {
   const { collection, id } = req.params;
 
   let model;
-
+  const defaultImg = path.join(__dirname, "../assests/no-image.jpg");
   try {
     switch (collection) {
       case "users":
@@ -43,7 +43,7 @@ const handleGetFiles = async (req, res) => {
       if (fs.existsSync(pathImg)) {
         return res.sendFile(pathImg);
       } else {
-        res.status(404).json({ msg: "The image does not exists any more" });
+        res.sendFile(defaultImg);
       }
     }
   } catch (error) {
