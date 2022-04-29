@@ -1,5 +1,7 @@
 const path = require("path");
 const fs = require("fs");
+const cloudinary = require("cloudinary").v2;
+cloudinary.config(process.env.CLOUDINARY_URL);
 const validateUpload = require("../helpers/validate.upload");
 const writeLog = require("../log/log");
 const productsModel = require("../models/products.model");
@@ -7,7 +9,6 @@ const userModel = require("../models/user.model");
 
 const handleGetFiles = async (req, res) => {
   const { collection, id } = req.params;
-
   let model;
   const defaultImg = path.join(__dirname, "../assests/no-image.jpg");
   try {
@@ -154,6 +155,51 @@ const handlePutFiles = async (req, res) => {
     writeLog(error);
   }
 };
+const handlePutcloudinaryFiles = async (req, res) => {
+  const { collection, id } = req.params;
+  const { file } = req.files;
+  let model;
+  try {
+    switch (collection) {
+      case "users":
+        model = await userModel.findById({ _id: id });
+        if (!model) {
+          return res
+            .status(400)
+            .json({ msg: `The file ${id} does not exists` });
+        }
+        break;
+      case "products":
+        model = await productsModel.findById({ _id: id });
+        if (!model) {
+          return res
+            .status(400)
+            .json({ msg: `The file ${id} does not exists` });
+        }
+        break;
+
+      default:
+        return res.status(500).json({ msg: "The collection does not exists" });
+    }
+    const cloudinaryUpload = await cloudinary.uploader.upload(
+      file.tempFilePath
+    );
+
+    await validateUpload(file, undefined, collection);
+    model.img = cloudinaryUpload.secure_url;
+    await model.save();
+
+    res.status(200).json({
+      msg: `File ${id} modified successfully`,
+      model,
+      "New img": cloudinaryUpload,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ msg: "There was an error", error });
+    writeLog(error);
+  }
+};
 
 const handleDeleteFiles = (req, res) => {
   try {
@@ -169,4 +215,5 @@ module.exports = {
   handlePostFiles,
   handlePutFiles,
   handleDeleteFiles,
+  handlePutcloudinaryFiles,
 };

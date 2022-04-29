@@ -5,6 +5,7 @@ const {
   handlePostFiles,
   handlePutFiles,
   handleDeleteFiles,
+  handlePutcloudinaryFiles,
 } = require("../controller/files.controller");
 const { validateFields } = require("../middlewares");
 const { validateCollectionsFiles } = require("../helpers/db.validator");
@@ -37,7 +38,7 @@ files.post(
 files.put(
   "/modify/:collection/:id",
   [check("id", "Invalid ID").isMongoId(), validateFile, validateFields],
-  handlePutFiles
+  handlePutcloudinaryFiles
 );
 files.delete("/delete/:id", handleDeleteFiles);
 
