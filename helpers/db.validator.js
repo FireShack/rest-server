@@ -12,7 +12,7 @@ const validRole = async (role = "") => {
 };
 const validMail = async (mail = "") => {
   // Check if mail exists into the DB
-  const mailExists = await UserModel.findOne({ mail });
+  const mailExists = await userModel.findOne({ mail });
   if (mailExists) {
     throw new Error(`Mail ${mail} already exists`);
   }
@@ -20,7 +20,7 @@ const validMail = async (mail = "") => {
 
 const userExists = async (id = "") => {
   // Check if ID exists into the DB
-  const userExists = await UserModel.findById(id);
+  const userExists = await userModel.findById(id);
   if (!userExists) {
     throw new Error(`The user do not exists or is already registered`);
   }
